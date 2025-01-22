@@ -1,0 +1,16 @@
+dashboard peminjaman barang mahal
+
+rael -> rae luxury
+
+-- halaman admin
+- dashboard
+- manajemen barang
+- manajemen pengguna
+- laporan
+
+--halaman user
+- list barang
+
+
+--lanjutan kalo sempet
+- profil user
