@@ -8,9 +8,12 @@ rael -> rae luxury
 - manajemen pengguna
 - laporan
 
+-- halaman petugas
+- peminjaman
+- pengembalian
+ 
 --halaman user
 - list barang
-
 
 --lanjutan kalo sempet
 - profil user
