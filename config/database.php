@@ -1,24 +1,36 @@
-<?php 
+<?php
 
 namespace Core;
 
 class Database {
+    private static $instance;
     private $host = "localhost";
     private $dbname = "sch_pinjem_barang_rael";
     private $username = "root";
     private $password = "";
     private $connection;
 
-    public function __construct(){
+    private function __construct() {
         $this->connect();
     }
 
     private function connect() {
-        $this->connection = new \mysqli($this->host, $this->username, $this->password, $this->dbname,);
+        $this->connection = new \mysqli($this->host, $this->username, $this->password, $this->dbname);
 
         if ($this->connection->connect_error) {
             die("Connection failed: " . $this->connection->connect_error);
         }
+    }
+
+    public static function getInstance() {
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    public function getConnection() {
+        return $this->connection;
     }
 
     public function query($sql, $params = []) {
@@ -39,7 +51,7 @@ class Database {
             }
 
             // Use call_user_func_array to bind params
-            $stmt->bind_param($types, ...$values);
+            call_user_func_array(array($stmt, 'bind_param'), array_merge(array($types), $values)); 
         }
 
         $stmt->execute();
