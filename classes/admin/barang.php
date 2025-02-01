@@ -17,10 +17,11 @@ class Barang {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function addBarang($nama, $brand, $deskripsi, $kategori, $jumlah, $status) {
-        $query = "INSERT INTO barang (nama_barang, brand, deskripsi, kategori, jumlah, status) VALUES (?, ?, ?, ?, ?, ?)";
+    public function addBarang($nama, $brand, $deskripsi, $kategori, $jumlah, $status, $harga) {
+        $query = "INSERT INTO barang (nama_barang, brand, deskripsi, kategori, jumlah, status, harga) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssssis", $nama, $brand, $deskripsi, $kategori, $jumlah, $status);
+        $stmt->bind_param("ssssiss", $nama, $brand, $deskripsi, $kategori, $jumlah, $status, $harga); 
         return $stmt->execute();
     }
 

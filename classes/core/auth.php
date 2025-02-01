@@ -7,19 +7,35 @@ class Auth {
     private $db;
 
     public function __construct() {
-        $this->db = new Database();
+        $this->db = Database::getInstance()->getConnection();
     }
 
-    public function login($username, $password) {
-        $query = "SELECT * FROM admin WHERE username = ?";
-        $admin = $this->db->query($query, [$username]);
+    public function login($username, $password, $role) {
+        // Determine which table to query based on role
+        if ($role === 'admin') {
+            $query = "SELECT * FROM admin WHERE username = ?";
+        } elseif ($role === 'petugas') {
+            $query = "SELECT * FROM petugas WHERE username = ?";
+        } elseif ($role === 'user') {
+            $query = "SELECT * FROM user WHERE username = ?";
+        } else {
+            return false; // Invalid role
+        }
 
-        if ($admin) {
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+
+        if ($user) {
             // Verify the password
-            if (password_verify($password, $admin[0]['password'])) {
+            if (password_verify($password, $user['password'])) {
                 // Set session
-                $_SESSION['admin_id'] = $admin[0]['id_admin'];
-                $_SESSION['nama_admin'] = $admin[0]['nama_admin'];
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = $role;
+
                 return true;
             }
         }
@@ -28,10 +44,11 @@ class Auth {
     }
 
     public function isLoggedIn() {
-        return isset($_SESSION['admin_id']);
+        return isset($_SESSION['user_id']);
     }
 
     public function logout() {
         session_destroy();
     }
 }
+?>

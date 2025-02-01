@@ -3,7 +3,7 @@ include '../../templates/sidebar.php';
 require_once '../../classes/admin/barang.php';
 require_once '../../config/database.php';
 
-$barangObj = new Barang(); 
+$barangObj = new Barang();
 $barangList = $barangObj->getAllBarang();
 
 // Handle form submission
@@ -14,8 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add'])) {
     $kategori = $_POST['kategori'];
     $jumlah = $_POST['jumlah'];
     $status = $_POST['status'];
+    $harga = $_POST['harga'];
 
-    if ($barangObj->addBarang($nama, $brand, $deskripsi, $kategori, $jumlah, $status)) {
+    if ($barangObj->addBarang($nama, $brand, $deskripsi, $kategori, $jumlah, $status, $harga)) {
         header("Location: barang.php?success=Barang berhasil ditambahkan!");
         exit();
     } else {
@@ -37,7 +38,7 @@ if (isset($_GET['delete'])) {
 
 <div class="container mt-4">
     <h1>Manajemen Barang</h1>
-    
+
     <?php if (isset($_GET['success'])): ?>
         <div class="alert alert-success"><?php echo $_GET['success']; ?></div>
     <?php endif; ?>
@@ -77,6 +78,10 @@ if (isset($_GET['delete'])) {
                     <option value="Rusak">Rusak</option>
                 </select>
             </div>
+            <div class="mb-3">
+                <label class="form-label">Harga</label>
+                <input type="number" step="0.01" class="form-control" name="harga" required>
+            </div>
             <button type="submit" name="add" class="btn btn-primary">Tambah Barang</button>
         </form>
     </div>
@@ -92,6 +97,7 @@ if (isset($_GET['delete'])) {
                 <th>Jumlah</th>
                 <th>Status</th>
                 <th>Deskripsi</th>
+                <th>Harga</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -105,6 +111,7 @@ if (isset($_GET['delete'])) {
                     <td><?php echo $barang['jumlah']; ?></td>
                     <td><?php echo htmlspecialchars($barang['status']); ?></td>
                     <td><?php echo htmlspecialchars($barang['deskripsi']); ?></td>
+                    <td><?php echo $barang['harga']; ?></td>
                     <td>
                         <a href="barang.php?delete=<?php echo $barang['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
                     </td>
