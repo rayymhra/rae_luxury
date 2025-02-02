@@ -30,8 +30,3 @@
 .btn-warning:hover {
     background-color: #46391a !important;
 }
-
-/* SIDEBAR */
-.sidebar {
-    height: 100vh;
-}
