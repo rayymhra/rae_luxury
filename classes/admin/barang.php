@@ -31,5 +31,23 @@ class Barang {
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
+
+    public function updateBarang($id, $nama, $brand, $deskripsi, $kategori, $jumlah, $status, $harga) {
+        $query = "UPDATE barang SET 
+                    nama_barang = ?, 
+                    brand = ?, 
+                    deskripsi = ?, 
+                    kategori = ?, 
+                    jumlah = ?, 
+                    status = ?, 
+                    harga = ? 
+                  WHERE id = ?";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssssissi", $nama, $brand, $deskripsi, $kategori, $jumlah, $status, $harga, $id);
+    
+        return $stmt->execute();
+    }
+    
 }
 ?>

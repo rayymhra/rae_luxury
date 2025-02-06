@@ -34,6 +34,26 @@ if (isset($_GET['delete'])) {
         $error = "Gagal menghapus barang.";
     }
 }
+
+
+// Handle update request
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
+    $id = $_POST['id_barang'];
+    $nama = $_POST['nama_barang'];
+    $brand = $_POST['brand'];
+    $deskripsi = $_POST['deskripsi'];
+    $kategori = $_POST['kategori'];
+    $jumlah = $_POST['jumlah'];
+    $status = $_POST['status'];
+    $harga = $_POST['harga'];
+
+    if ($barangObj->updateBarang($id, $nama, $brand, $deskripsi, $kategori, $jumlah, $status, $harga)) {
+        header("Location: barang.php?success=Barang berhasil diperbarui!");
+        exit();
+    } else {
+        $error = "Gagal memperbarui barang.";
+    }
+}
 ?>
 
 <div class="container mt-4">
@@ -113,12 +133,63 @@ if (isset($_GET['delete'])) {
                     <td><?php echo htmlspecialchars($barang['deskripsi']); ?></td>
                     <td><?php echo $barang['harga']; ?></td>
                     <td>
+                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $barang['id']; ?>">Edit</button>
                         <a href="barang.php?delete=<?php echo $barang['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
+</div>
+
+<!-- Modal Edit -->
+<div class="modal fade" id="editModal<?php echo $barang['id']; ?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Barang</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="barang.php">
+                <div class="modal-body">
+                    <input type="hidden" name="id_barang" value="<?php echo $barang['id']; ?>">
+                    <div class="mb-3">
+                        <label>Nama Barang</label>
+                        <input type="text" class="form-control" name="nama_barang" value="<?php echo $barang['nama_barang']; ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Brand</label>
+                        <input type="text" class="form-control" name="brand" value="<?php echo $barang['brand']; ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Deskripsi</label>
+                        <textarea class="form-control" name="deskripsi"><?php echo $barang['deskripsi']; ?></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label>Kategori</label>
+                        <input type="text" class="form-control" name="kategori" value="<?php echo $barang['kategori']; ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label>Jumlah</label>
+                        <input type="number" class="form-control" name="jumlah" value="<?php echo $barang['jumlah']; ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Harga</label>
+                        <input type="number" class="form-control" name="harga" value="<?php echo $barang['harga']; ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Status</label>
+                        <select class="form-control" name="status">
+                            <option value="Tersedia">Tersedia</option>
+                            <option value="Dipinjam">Dipinjam</option>
+                            <option value="Rusak">Rusak</option>
+                        </select>
+                    </div>
+                    <button type="submit" name="update" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <?php include '../../templates/footer.php'; ?>

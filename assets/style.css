@@ -30,3 +30,38 @@
 .btn-warning:hover {
     background-color: #46391a !important;
 }
+
+.pilih-login {
+    background-color: black;
+    border-radius: 20px;
+    padding: 20px;
+    width: 500px;
+    margin-top: 20px;
+}
+
+.pilih-login h1 {
+    color: white;
+}
+
+.pilih-login h5 {
+    color: white;
+}
+
+.pilih-login img {
+    height: 200px;
+    width: 200px;
+}
+
+.container-pilih-login-dasar {
+    background-color: #F8E0AB;
+    padding-bottom: 30px;
+}
+
+
+
+/* SIDEBAR */
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    background-color: black !important;
+}

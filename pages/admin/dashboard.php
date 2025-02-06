@@ -34,6 +34,8 @@ while ($row = $peminjaman_chart->fetch_assoc()) {
     <h2>Dashboard Admin</h2>
 
     <div class="row">
+        <div class="col-10">
+            <div class="row">
         <!-- Users Card -->
         <div class="col-md-3">
             <div class="card text-white bg-primary mb-3">
@@ -82,6 +84,12 @@ while ($row = $peminjaman_chart->fetch_assoc()) {
             <canvas id="peminjamanChart"></canvas>
         </div>
     </div>
+        </div>
+        <div class="col-2">
+            kalender
+        </div>
+    </div>
+    
 </div>
 
 <!-- Chart.js -->
