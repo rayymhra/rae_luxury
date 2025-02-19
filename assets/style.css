@@ -4,6 +4,26 @@
     font-family: "Abyssinica SIL", serif;
 }
 
+body {
+    background-color: #F3ECE1;
+}
+
+.btn-primary {
+    background-color: #531111 !important;
+    border-color: #531111 !important;
+    border-radius: 30px;
+}
+
+.btn-primary:hover {
+    background-color: #863e34 !important;
+    border-color: #863e34 !important;
+}
+
+.header-card-dark {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
 /* LOGIN */
 .login-container {
     background-color: black;
@@ -66,7 +86,164 @@
 
 /* SIDEBAR */
 .sidebar {
-    height: 100vh;
+    height: 100vh; 
     position: fixed;
-    background-color: black !important;
+    background-color: black !important; 
+    padding-top: 20px; 
+    z-index: 9999999;
 }
+
+.sidebar .nav-link {
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 5px; 
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background-color: #F3ECE1; 
+    color: black !important;
+}
+
+.sidebar .nav-link.active {
+    font-weight: 700 !important; 
+}
+
+.sidebar .nav-link i {
+    vertical-align: middle; 
+    color: white !important;
+}
+
+
+/* ADMIN DASHBOARD */
+.dashboard-container {
+    padding: 10px;
+    background-color: #F3ECE1;
+}
+
+.welcome-banner {
+    background-color: #000000; /* Card color */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    color: #ffffff; /* Dark text for contrast */
+}
+
+.welcome-banner h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.welcome-banner p {
+    font-size: 1em;
+}
+
+.card-dashboard {
+    background-color: #CFBFA6; /* Card color */
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    border: #46391a 1px solid;
+    height: 145px;
+}
+
+.card-dashboard:hover {
+    transform: translateY(-5px);
+}
+
+.card-dashboard .card-body {
+    text-align: center;
+}
+
+.card-dashboard h5 {
+    color: #000; /* Dark text for contrast */
+    font-size: 1.2rem;
+    text-align: left;
+}
+
+.card-dashboard p {
+    color: #531111; /* Calendar color for accent */
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.calendar-container {
+    background-color: #531111; /* Calendar background */
+    color: #F8E0AB; /* Light text for contrast */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.calendar-container h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    grid-auto-rows: min-content; /* Adjust row height to content */
+}
+
+.calendar-day {
+    text-align: center;
+    padding: 5px;
+    color: #F8E0AB;
+    font-size: 10px; /* Reduced font size */
+}
+
+
+.calendar-day.current {
+    background-color: #F8E0AB; /* Light background for current day */
+    color: #531111; /* Dark text for contrast */
+    border-radius: 50%;
+}
+
+.timing-progress {
+    margin-top: 20px;
+}
+
+.timing-progress .progress {
+    height: 20px;
+    margin-bottom: 10px;
+    background-color: #CFBFA6; /* Card color for progress bars */
+    border-radius: 10px;
+}
+
+.timing-progress .progress-bar {
+    background-color: #531111; /* Calendar color for progress bars */
+}
+
+.calendar-legend {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+
+.legend-item span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.legend-item .current-day {
+    background-color: #F8E0AB; /* Light background for current day */
+}
+
+.legend-item .done {
+    background-color: #008000; /* Green for completed tasks */
+}
+
+.legend-item .scheduled {
+    background-color: #FFFF00; /* Yellow for scheduled tasks */
+}
+

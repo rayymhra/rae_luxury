@@ -47,8 +47,13 @@ $result = $db->query($query);
     </form>
 
     <!-- Table Data -->
-    <table class="table table-bordered">
-        <thead class="table-dark">
+     <div class="card">
+        <div class="card-header">
+            Detail Data Peminjaman & Pengembalian
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+        <thead>
             <tr>
                 <th>ID</th>
                 <th>Nama User</th>
@@ -79,4 +84,7 @@ $result = $db->query($query);
             <?php endwhile; ?>
         </tbody>
     </table>
+        </div>
+     </div>
+    
 </div>

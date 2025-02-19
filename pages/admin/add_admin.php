@@ -29,27 +29,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = 'All fields are required.';
     }
 }
+
+use Core\Database;
+
+$conn = Database::getInstance()->getConnection();
+
+$users = $conn->query("SELECT * FROM admin")->fetch_all(MYSQLI_ASSOC);
+
 ?>
 
 <?php include '../../templates/sidebar.php'; ?>
-<div class="container">
-    <h1>Add Admin</h1>
-    <p><?php echo htmlspecialchars($message); ?></p>
-    <form action="add_admin.php" method="POST">
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+<div class="container mt-4">
+    <div class="card shadow-lg p-4 mb-5">
+        <h2 class="mb-3 text-center">Add Admin</h2>
+
+        <?php if ($message): ?>
+            <div class="alert <?php echo $alertClass; ?> text-center">
+                <?php echo htmlspecialchars($message); ?>
+            </div>
+        <?php endif; ?>
+
+        <form action="add_admin.php" method="POST">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="nama_admin" class="form-label">Nama Admin:</label>
+                <input type="text" id="nama_admin" name="nama_admin" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Admin</button>
+        </form>
+    </div>
+
+    <h3>Daftar User</h3>
+        <div class="card">
+            <div class="card-header header-card-dark">
+                Daftar User
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Username</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($users as $u) : ?>
+                            <tr>
+                                <td><?= $u['id'] ?></td>
+                                <td><?= $u['nama_admin'] ?></td>
+                                <td><?= $u['username'] ?></td>
+                                <td>
+                                    <a href="?delete=<?= $u['id'] ?>&role=user" class="btn btn-primary btn-sm" onclick="return confirm('Hapus akun ini?')">Hapus</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <div class="form-group">
-            <label for="nama_admin">Nama Admin:</label>
-            <input type="text" id="nama_admin" name="nama_admin" required>
-        </div>
-        <button type="submit">Add Admin</button>
-    </form>
-    <a href="dashboard.php">Back to Dashboard</a>
 </div>
 <?php include '../../templates/footer.php'; ?>

@@ -5,15 +5,23 @@ use Core\Database;
 
 class AddAdmin {
     public static function createAdmin($username, $password, $nama_admin) {
-        $db = new Database();
+        // Get database instance correctly
+        $db = Database::getInstance()->getConnection();
 
         // Hash the password for security
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
-        // Insert admin into the database
-        $sql = "INSERT INTO admin (username, password, nama_admin) VALUES (?, ?, ?)";
-        $params = [$username, $hashed_password, $nama_admin];
+        // Use prepared statements for security
+        $stmt = $db->prepare("INSERT INTO admin (username, password, nama_admin) VALUES (?, ?, ?)");
 
-        return $db->query($sql, $params);
+        if (!$stmt) {
+            die("SQL Error: " . $db->error);
+        }
+
+        $stmt->bind_param("sss", $username, $hashed_password, $nama_admin);
+        $result = $stmt->execute();
+        $stmt->close();
+
+        return $result;
     }
 }

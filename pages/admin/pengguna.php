@@ -54,18 +54,20 @@ if (isset($_GET['delete']) && isset($_GET['role'])) {
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <title>Manajemen Pengguna</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
+
 <body>
     <?php include "../../templates/sidebar.php" ?>
     <div class="container mt-5">
         <h2>Manajemen Pengguna</h2>
 
         <!-- Add New Account Form -->
-        <div class="card mb-4">
-            <div class="card-header">Tambah Akun</div>
+        <div class="card mb-5">
+            <div class="card-header header-card-dark">Tambah Akun</div>
             <div class="card-body">
                 <form method="POST">
                     <div class="mb-2">
@@ -94,53 +96,73 @@ if (isset($_GET['delete']) && isset($_GET['role'])) {
 
         <!-- Display Petugas Table -->
         <h3>Daftar Petugas</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nama</th>
-                    <th>Username</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($petugas as $p) : ?>
-                    <tr>
-                        <td><?= $p['id'] ?></td>
-                        <td><?= $p['nama_petugas'] ?></td>
-                        <td><?= $p['username'] ?></td>
-                        <td>
-                            <a href="?delete=<?= $p['id'] ?>&role=petugas" class="btn btn-danger btn-sm" onclick="return confirm('Hapus akun ini?')">Hapus</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+        <div class="card mb-5">
+            <div class="card-header header-card-dark">
+                Daftar Petugas
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Username</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($petugas as $p) : ?>
+                            <tr>
+                                <td><?= $p['id'] ?></td>
+                                <td><?= $p['nama_petugas'] ?></td>
+                                <td><?= $p['username'] ?></td>
+                                <td>
+                                    <a href="?delete=<?= $p['id'] ?>&role=petugas" class="btn btn-primary btn-sm" onclick="return confirm('Hapus akun ini?')">Hapus</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
 
         <!-- Display User Table -->
         <h3>Daftar User</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nama</th>
-                    <th>Username</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($users as $u) : ?>
-                    <tr>
-                        <td><?= $u['id'] ?></td>
-                        <td><?= $u['nama_user'] ?></td>
-                        <td><?= $u['username'] ?></td>
-                        <td>
-                            <a href="?delete=<?= $u['id'] ?>&role=user" class="btn btn-danger btn-sm" onclick="return confirm('Hapus akun ini?')">Hapus</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+        <div class="card">
+            <div class="card-header header-card-dark">
+                Daftar User
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Username</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($users as $u) : ?>
+                            <tr>
+                                <td><?= $u['id'] ?></td>
+                                <td><?= $u['nama_user'] ?></td>
+                                <td><?= $u['username'] ?></td>
+                                <td>
+                                    <a href="?delete=<?= $u['id'] ?>&role=user" class="btn btn-primary btn-sm" onclick="return confirm('Hapus akun ini?')">Hapus</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
+
+    <?php include '../../templates/footer.php'; ?>
+
 </body>
+
 </html>
