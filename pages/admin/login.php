@@ -34,7 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="ingfo text-center">
                 <img src="../../assets/img/Rael.png" alt="" class="logo-login w-50">
                 <h6 class="text-white">Welcome Back Admin! Please enter your details</h6>
-                <?php if (isset($error)) { echo "<p class='text-danger'>$error</p>"; } ?>
+                <?php if (isset($error)) {
+                    echo "<p class='text-danger'>$error</p>";
+                } ?>
             </div>
             <div class="login-form-admin mt-4">
                 <form method="POST" action="" class="form-form-login-admin">
