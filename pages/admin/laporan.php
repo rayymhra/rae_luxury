@@ -48,7 +48,7 @@ $result = $db->query($query);
 
     <!-- Table Data -->
      <div class="card">
-        <div class="card-header">
+        <div class="card-header header-card-dark">
             Detail Data Peminjaman & Pengembalian
         </div>
         <div class="card-body">

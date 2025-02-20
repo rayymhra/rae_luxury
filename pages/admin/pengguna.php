@@ -11,6 +11,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 
 use Core\Database;
 
+
 $conn = Database::getInstance()->getConnection();
 
 // Fetch petugas and users
@@ -32,6 +33,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_account'])) {
 
     $stmt = $conn->prepare($query);
     $stmt->bind_param("sss", $username, $password, $name);
+    $stmt->execute();
+    header("Location: pengguna.php");
+    exit;
+}
+
+// Handle updating accounts
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_account'])) {
+    $id = $_POST['id'];
+    $username = $_POST['username'];
+    $name = $_POST['name'];
+    $role = $_POST['role'];
+
+    if ($role === 'petugas') {
+        $query = "UPDATE petugas SET username=?, nama_petugas=? WHERE id=?";
+    } elseif ($role === 'user') {
+        $query = "UPDATE user SET username=?, nama_user=? WHERE id=?";
+    }
+
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("ssi", $username, $name, $id);
     $stmt->execute();
     header("Location: pengguna.php");
     exit;
@@ -97,71 +118,112 @@ if (isset($_GET['delete']) && isset($_GET['role'])) {
         <!-- Display Petugas Table -->
         <h3>Daftar Petugas</h3>
         <div class="card mb-5">
-            <div class="card-header header-card-dark">
-                Daftar Petugas
-            </div>
+            <div class="card-header header-card-dark">Daftar Petugas</div>
             <div class="card-body">
                 <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nama</th>
-                            <th>Username</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($petugas as $p) : ?>
-                            <tr>
-                                <td><?= $p['id'] ?></td>
-                                <td><?= $p['nama_petugas'] ?></td>
-                                <td><?= $p['username'] ?></td>
-                                <td>
-                                    <a href="?delete=<?= $p['id'] ?>&role=petugas" class="btn btn-primary btn-sm" onclick="return confirm('Hapus akun ini?')">Hapus</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Username</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($petugas as $p) : ?>
+                    <tr>
+                        <td><?= $p['id'] ?></td>
+                        <td><?= $p['nama_petugas'] ?></td>
+                        <td><?= $p['username'] ?></td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillEditForm('<?= $p['id'] ?>', '<?= $p['nama_petugas'] ?>', '<?= $p['username'] ?>', 'petugas')">Edit</button>
+                            <a href="?delete=<?= $p['id'] ?>&role=petugas" class="btn btn-primary btn-sm" onclick="return confirm('Hapus akun ini?')">Hapus</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
             </div>
         </div>
-
+        
 
         <!-- Display User Table -->
         <h3>Daftar User</h3>
         <div class="card">
-            <div class="card-header header-card-dark">
-                Daftar User
-            </div>
+            <div class="card-header header-card-dark">Daftar User</div>
             <div class="card-body">
                 <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nama</th>
-                            <th>Username</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($users as $u) : ?>
-                            <tr>
-                                <td><?= $u['id'] ?></td>
-                                <td><?= $u['nama_user'] ?></td>
-                                <td><?= $u['username'] ?></td>
-                                <td>
-                                    <a href="?delete=<?= $u['id'] ?>&role=user" class="btn btn-primary btn-sm" onclick="return confirm('Hapus akun ini?')">Hapus</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Username</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $u) : ?>
+                    <tr>
+                        <td><?= $u['id'] ?></td>
+                        <td><?= $u['nama_user'] ?></td>
+                        <td><?= $u['username'] ?></td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" onclick="fillEditForm('<?= $u['id'] ?>', '<?= $u['nama_user'] ?>', '<?= $u['username'] ?>', 'user')">Edit</button>
+                            <a href="?delete=<?= $u['id'] ?>&role=user" class="btn btn-primary btn-sm" onclick="return confirm('Hapus akun ini?')">Hapus</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Akun</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        <input type="hidden" name="id" id="edit_id">
+                        <input type="hidden" name="role" id="edit_role">
+                        <div class="mb-2">
+                            <label>Nama</label>
+                            <input type="text" name="name" id="edit_name" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label>Username</label>
+                            <input type="text" name="username" id="edit_username" class="form-control" required>
+                        </div>
+                        <button type="submit" name="edit_account" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
             </div>
         </div>
 
     </div>
 
     <?php include '../../templates/footer.php'; ?>
+    <script>
+        function fillEditForm(id, name, username, role) {
+            document.getElementById('edit_id').value = id;
+            document.getElementById('edit_name').value = name;
+            document.getElementById('edit_username').value = username;
+            document.getElementById('edit_role').value = role;
+
+            // Debugging: Check if values are set properly
+            console.log("ID:", id);
+            console.log("Name:", name);
+            console.log("Username:", username);
+            console.log("Role:", role);
+        }
+    </script>
+
 
 </body>
 
