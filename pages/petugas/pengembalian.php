@@ -46,7 +46,8 @@ $result = $db->query("SELECT p.*, u.nama_user, b.nama_barang
 ?>
 
 <div class="container mt-4">
-    <h2>Pengembalian Barang</h2>
+    <h2 >Pengembalian Barang</h2>
+    <p>List user yang belum mengembalikan buku</p>
 
     <table class="table table-bordered">
         <thead class="table-dark">
@@ -72,7 +73,7 @@ $result = $db->query("SELECT p.*, u.nama_user, b.nama_barang
                     <td>
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="id_peminjaman" value="<?= $row['id'] ?>">
-                            <button type="submit" class="btn btn-success btn-sm">Kembalikan</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Kembalikan</button>
                         </form>
                     </td>
                 </tr>

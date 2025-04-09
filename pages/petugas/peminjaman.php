@@ -98,8 +98,8 @@ $items = $db->query("SELECT * FROM barang WHERE jumlah > 0");
                     <td><?= $row['tanggal_pinjam'] ?></td>
                     <td><span class="badge bg-warning"><?= $row['status'] ?></span></td>
                     <td>
-                        <a href="edit_peminjaman.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
-                        <a href="delete_peminjaman.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-danger" 
+                        <a href="edit_peminjaman.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="delete_peminjaman.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-primary" 
                            onclick="return confirm('Apakah Anda yakin ingin menghapus peminjaman ini?')">Delete</a>
                     </td>
                 </tr>

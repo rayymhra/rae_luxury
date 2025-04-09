@@ -51,7 +51,7 @@ while ($row = $peminjaman_chart->fetch_assoc()) {
                 <div class="col-md-3">
                     <div class="card card-dashboard text-center">
                         <div class="card-body">
-                            <h5>Total Pengguna</h5>
+                            <h5>Total <br>Pengguna</h5>
                             <p><?= $total_user ?></p>
                         </div>
                     </div>
@@ -59,7 +59,7 @@ while ($row = $peminjaman_chart->fetch_assoc()) {
                 <div class="col-md-3">
                     <div class="card card-dashboard text-center">
                         <div class="card-body">
-                            <h5>Total Barang</h5>
+                            <h5>Total <br>Barang</h5>
                             <p><?= $total_barang ?></p>
                         </div>
                     </div>
